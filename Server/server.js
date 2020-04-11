@@ -1,4 +1,4 @@
-require('./config/config');
+require('./Config/config');
 const express = require('express'); //LIBRERIA CREAR APLICACIONES WEB DEL LADO DEL SERVIDOR
 const mongoose = require('mongoose'); //LIBRERIA PARA CONECTARNOS A LA BASE DE DATOS MONGO
 const bodyParser = require('body-parser')
