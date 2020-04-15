@@ -14,7 +14,8 @@ app.get('/usuario', function(req, res) {
     let limite = req.query.limite || 5; // si no me lo especifican el limite entonces 5
     limite = Number(limite);
 
-    Usuario.find({ estado: false }, 'nombre email role estado google img') //Usuario.find({google:true}) trae los reguistros que cumplen a condicion en bd schema -colection-tabla usuario
+    Usuario.find({}, 'nombre email role estado google img') //Usuario.find({google:true}) trae los reguistros que cumplen a condicion en bd schema -colection-tabla usuario
+        //Usuario.find({ estado: false }, 'nombre email role estado google img') //Usuario.find({google:true}) trae los reguistros que cumplen a condicion en bd schema -colection-tabla usuario    
         .skip(desde)
         .limit(limite)
         .exec((err, usuarios) => { //exec funcion de mongoose para ejecutar ese find reciben el error o la respuesta (arreglo de usuarios)
@@ -26,7 +27,7 @@ app.get('/usuario', function(req, res) {
                 });
             }
 
-            Usuario.count({ estado: false }, (err, conteo) => { //count contar registros y hacemos un callback con las respuestas 
+            Usuario.count({}, (err, conteo) => { //count contar registros y hacemos un callback con las respuestas  {estado: false} 
                 res.json({
                     ok: true,
                     usuarios,
