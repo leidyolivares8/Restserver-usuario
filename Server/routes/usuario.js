@@ -3,10 +3,20 @@ const bcrypt = require('bcrypt');
 const _ = require('underscore');
 const Usuario = require('../models/usuario'); // Modelo de Ususario
 
+const { verificaToken, verificarolAdmin } = require('../middlewares/autentificacion');
+
 const app = express();
 
 //Obtener usuarios bd
-app.get('/usuario', function(req, res) {
+app.get('/usuario', verificaToken, (req, res) => {
+
+    ///return res.json({
+    // usuario: req.usuario, //tengo un usuario valido que ya paso por el varlidatoken 
+    //se envio en el header el token del usuario 18 y return el usuario 18 con toda la info
+    // nombre: req.usuario.nombre,
+    //return el nombre que consulto en la base de datos , enviado en el header el token
+    // email: req.usuario.email
+    //});
 
     let desde = req.query.desde || 0; //enviar parametros opcionales desde url: ?limite=10&desde=10
     desde = Number(desde); //Esto lo va a transformar en un numero
@@ -41,7 +51,7 @@ app.get('/usuario', function(req, res) {
 });
 
 //Crear un usuario en bd
-app.post('/usuario', function(req, res) { //postman body x-www-form-urlencoded edad 33(bodyParser) body key:edad value:33
+app.post('/usuario', [verificaToken, verificarolAdmin], (req, res) => { //postman body x-www-form-urlencoded edad 33(bodyParser) body key:edad value:33
 
     let body = req.body;
 
@@ -84,7 +94,7 @@ app.post('/usuario', function(req, res) { //postman body x-www-form-urlencoded e
 //});
 
 //Actualizar información del usuario db
-app.put('/usuario/:id', function(req, res) { //id parametro que recibo en la url
+app.put('/usuario/:id', [verificaToken, verificarolAdmin], (req, res) => { //id parametro que recibo en la url
     let id = req.params.id; //obtener el parametro de la url
     let body = _.pick(req.body, ['nombre', 'email', 'img', 'role', 'estado']);
     //recibir la informacion del body
@@ -110,7 +120,7 @@ app.put('/usuario/:id', function(req, res) { //id parametro que recibo en la url
 });
 
 //Eliminar por cambiar estado de usuario de la bd
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', [verificaToken, verificarolAdmin], (req, res) => {
 
     let id = req.params.id;
 

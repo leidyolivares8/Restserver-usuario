@@ -10,7 +10,12 @@ app.use(bodyParser.urlencoded({ extended: false })) //midelware cada peticion pa
 app.use(bodyParser.json())
 
 
-app.use(require('./routes/usuario')); //Enlazar pagina entrada del localhost con usuario GEP-POST-DELETE
+//CONFIGURACION GLOBAL DE RUTAS
+app.use(require('./routes/index'));
+
+//CONFIGURACION RUTAS
+//app.use(require('./routes/usuario')); //Enlazar pagina entrada del localhost con usuario GEP-POST-DELETE
+//app.use(require('./routes/login')); //index.js
 
 
 
@@ -27,9 +32,6 @@ mongoose.connect(process.env.URLDB, { useNewUrlParser: true, useCreateIndex: tru
 //       if (err) throw err;
 //       console.log('Base de datos ONLINE');
 // });
-
-
-
 
 app.listen(process.env.PORT, () => {
     console.log('Escuchando puerto 3000:', process.env.PORT);
