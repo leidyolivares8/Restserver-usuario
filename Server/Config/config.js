@@ -39,3 +39,9 @@ if (process.env.NODE_ENV === 'dev') { //'dev' ambiente de desarrollo en postman
     //contiene urlDB la url de la BD EN LA NUBE de Mongo Atlas
 }
 process.env.URLDB = urlDB;
+
+//===================================
+//Google Client ID
+//=================================
+//Validar token de google, yo puedo definir process.env.CLIENT_ID en heroku
+process.env.CLIENT_ID = process.env.CLIENT_ID || '865280602395-k1u0t4d47d0fke7gasiak2jdc9qk0r4o.apps.googleusercontent.com';

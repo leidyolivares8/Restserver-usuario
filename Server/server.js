@@ -1,14 +1,19 @@
 require('./Config/config');
 const express = require('express'); //LIBRERIA CREAR APLICACIONES WEB DEL LADO DEL SERVIDOR
 const mongoose = require('mongoose'); //LIBRERIA PARA CONECTARNOS A LA BASE DE DATOS MONGO
-const bodyParser = require('body-parser')
-
+const path = require('path');
 
 const app = express();
+const bodyParser = require('body-parser')
 
+//parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false })) //midelware cada peticion pasa siempre por aqui
+    //parse application/json
 app.use(bodyParser.json())
 
+//habilitar la carpeta public
+app.use(express.static(path.resolve(__dirname, '../public')));
+console.log(path.resolve(__dirname, '../public'));
 
 //CONFIGURACION GLOBAL DE RUTAS
 app.use(require('./routes/index'));
