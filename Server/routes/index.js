@@ -4,6 +4,10 @@ const app = express();
 
 app.use(require('./usuario')); //Enlazar pagina entrada del localhost con usuario GEP-POST-DELETE
 
+app.use(require('./categoria'));
+
+app.use(require('./producto'));
+
 app.use(require('./login'));
 
 
