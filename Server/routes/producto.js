@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 let { verificaToken, verificarolAdmin } = require('../middlewares/autentificacion');
-let Productol = require('../models/original');
+let Productol = require('../models/producto');
 
 //==============================
 //Obtener productos
@@ -115,6 +115,7 @@ app.get('/producto/buscar/:termino', verificaToken, (req, res) => {
 app.post('/producto', verificaToken, (req, res) => {
 
     let body = req.body;
+
     let producto = new Productol({
         nombre: body.nombre,
         precioUni: body.preciouni,
@@ -220,5 +221,42 @@ app.delete('/producto/:id', verificaToken, (req, res) => {
 
     });
 });
+//==============================
+//Obtener productos por categoria
+//==============================
+app.get('/producto/categoria/:cate', verificaToken, (req, res) => {
+
+    let cate = req.params.cate;
+
+    let desde = req.query.desde || 0;
+    desde = Number(desde)
+
+    Productol.find({ categoria: cate })
+        .populate('categoria', 'nombre')
+        .populate('usuario', 'nombre email')
+        .exec((err, productosDB) => {
+
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    err
+                })
+            }
+            if (!productosDB) {
+                return res.status(500).json({
+                    ok: false,
+                    categoria,
+                    message: 'Productos no encontrados'
+                })
+            }
+            return res.json({
+                ok: true,
+                productosDB
+            })
+
+        });
+
+});
+
 
 module.exports = app;
